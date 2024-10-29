@@ -30,9 +30,15 @@ jobs:
       - name: Build the project
         run: npm run build
 
+      - name: Configure Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "your-email@example.com"
+
       - name: Deploy to GitHub Pages
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
           npm install -g gh-pages
           npm run build
           gh-pages -d dist
+
