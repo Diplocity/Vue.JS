@@ -1,0 +1,25 @@
+name: Deploy to Render
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the project
+        run: npm run build
+
+      - name: Deploy to Render
+        run: |
+          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
+
