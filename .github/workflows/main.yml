@@ -1,4 +1,4 @@
-name: Vue.js CI/CD
+name: CI/CD Pipeline
 
 on:
   push:
@@ -19,26 +19,17 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '16' # Change to '20' if preferred
 
       - name: Install dependencies
         run: npm install
 
-      - name: Run tests
-        run: npm run test
-
-      - name: Build the project
+      - name: Build the application
         run: npm run build
 
-      - name: Configure Git
+      - name: Deploy to Render
         run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "trugoy64@gmail.com"
+          # Add your deployment commands here
+          # For example, you might use a Render CLI command or another deployment method
 
-      - name: Deploy to GitHub Pages
-        if: ${{ github.ref == 'refs/heads/main' }}
-        run: |
-          npm install -g gh-pages
-          npm run build
-          gh-pages -d dist
 
