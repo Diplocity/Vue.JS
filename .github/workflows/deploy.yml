@@ -1,37 +1,32 @@
-name: Deploy to Render
+name: Vue.js CI/CD
 
 on:
   push:
     branches:
-      - main  # Trigger on push to the main branch
+      - main
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3  # Updated to v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3  # Updated to v3
+        with:
+          node-version: '20'  # Update to the latest version
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build the project
+      - name: Run tests
+        run: npm run test
+
+      - name: Build
         run: npm run build
 
       - name: Deploy to Render
-        env:
-          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
         run: |
-          curl -X POST \
-            -H "Authorization: Bearer $RENDER_API_KEY" \
-            -H "Accept: application/json" \
-            -d '{}' \
-            https://api.render.com/v1/services/YOUR_SERVICE_ID/deploys
-
-      - name: Notify on Deployment Success
-        run: |
-          echo "Deployment successful!"
-          # Add any notification command here, for example:
-          # curl -X POST -H "Content-Type: application/json" -d '{"text":"Deployment Successful!"}' YOUR_SLACK_WEBHOOK_URL
-
+          # Add your Render deployment commands here
